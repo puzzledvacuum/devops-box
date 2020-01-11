@@ -22,7 +22,8 @@ if [ ${REDHAT_BASED} ] ; then
     # Install Utils:
     yum install -y yum-utils \
         device-mapper-persistent-data \
-        lvm2
+        lvm2 \
+        unzip
     # Add the Docker repository:
     yum-config-manager \
         --add-repo \
