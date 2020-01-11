@@ -3,7 +3,7 @@
 set -E
 
 if [ -e /etc/redhat-release ] ; then
-  REDHAT_BASED=true
+    REDHAT_BASED=true
 fi
 
 TERRAFORM_VERSION="0.11.14"
@@ -11,12 +11,30 @@ PACKER_VERSION="1.2.4"
 
 # install packages
 if [ ${REDHAT_BASED} ] ; then
-  yum -y update
-  yum install -y docker ansible unzip wget
+    yum remove -y docker \
+                docker-client \
+                docker-client-latest \
+                docker-common \
+                docker-latest \
+                docker-latest-logrotate \
+                docker-logrotate \
+                docker-engine
+    # Install Utils:
+    yum install -y yum-utils \
+        device-mapper-persistent-data \
+        lvm2
+    # Add the Docker repository:
+    yum-config-manager \
+        --add-repo \
+        https://download.docker.com/linux/centos/docker-ce.repo
+    # Install Docker CE:
+    yum -y install docker-ce
 else 
-  apt-get update
-  apt-get -y install docker.io ansible unzip
+    apt-get update
+    apt-get -y install docker.io unzip
 fi
+# start docker and enable it:
+systemctl start docker && systemctl enable docker
 # add docker privileges
 usermod -G docker $USER
 # install pip
@@ -26,9 +44,10 @@ if [[ $? == 127 ]]; then
     python get-pip.py
     python3 get-pip.py
 fi
-# install awscli and ebcli
+# install awscli, ebcli and ansible
 pip install -U awscli
 pip install -U awsebcli
+pip install -U ansible
 
 #terraform
 T_VERSION=$(/usr/local/bin/terraform -v | head -1 | cut -d ' ' -f 2 | tail -c +2)
@@ -50,5 +69,5 @@ P_RETVAL=$?
 
 # clean up
 if [ ! ${REDHAT_BASED} ] ; then
-  apt-get clean
+    apt-get clean
 fi
