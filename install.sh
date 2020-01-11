@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -E
+set -x # for debug
 
 if [ -e /etc/redhat-release ] ; then
     REDHAT_BASED=true
