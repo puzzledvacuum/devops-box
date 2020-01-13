@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-curl https://raw.githubusercontent.com/puzzledvacuum/devops-box/master/install.sh | sudo bash
+# curl https://raw.githubusercontent.com/puzzledvacuum/devops-box/master/install.sh | sudo bash
 
 set -x # for debug
 
