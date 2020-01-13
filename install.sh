@@ -22,7 +22,7 @@ WHITE='\033[1;37m'
 
 # curl https://raw.githubusercontent.com/puzzledvacuum/devops-box/master/install.sh | sudo bash
 
-set -x # for debug
+# set -x # for debug
 
 if [ -e /etc/redhat-release ] ; then
     REDHAT_BASED=true
