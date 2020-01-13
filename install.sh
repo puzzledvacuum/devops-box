@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-set -x # for debug
+curl https://raw.githubusercontent.com/puzzledvacuum/devops-box/master/install.sh | sudo bash
 
-if [ -z ${DOCKER_USER} ] ; then
-    echo "Set DOCKER_USER"
-    exit 1
-fi
+set -x # for debug
 
 if [ -e /etc/redhat-release ] ; then
     REDHAT_BASED=true
@@ -42,7 +39,7 @@ fi
 # start docker and enable it:
 systemctl start docker && systemctl enable docker
 # add docker privileges
-usermod -G docker ${DOCKER_USER}
+echo "Run to add docker user: sudo usermod -G docker ${DOCKER_USER}"
 # install pip
 pip install -U pip && pip3 install -U pip
 if [[ $? == 127 ]]; then
